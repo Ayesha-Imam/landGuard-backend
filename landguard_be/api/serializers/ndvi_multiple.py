@@ -17,9 +17,9 @@ from rest_framework import serializers
 class LocationInputSerializer(serializers.Serializer):
     place_name = serializers.CharField()
     coordinates = serializers.ListField(child=serializers.ListField(child=serializers.FloatField()))
-    interval_days = serializers.IntegerField()
+    # interval_days = serializers.IntegerField()
 
 class NDVIMultipleCoordinatesSerializer(serializers.Serializer):
     locations = LocationInputSerializer(many=True)
-    from_date = serializers.DateTimeField(source="from")
-    to_date = serializers.DateTimeField(source="to")
+    # from_date = serializers.DateTimeField(source="from")
+    # to_date = serializers.DateTimeField(source="to")
