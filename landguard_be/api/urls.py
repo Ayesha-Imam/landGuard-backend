@@ -5,13 +5,16 @@ from .views.get_multiple_ndvi_views import NDVIMultiView
 from .views.get_ndvi_views import NDVIView
 NDVIMultiView
 import sys
+from .views.social_views import FacebookPostView
+
 
 app_name = "api"
 
 urlpatterns = [
     path('ndvi/', NDVIView.as_view(), name='ndvi'),
     path('ndvi/multiple/', NDVIMultiView.as_view(), name= 'ndviMultiple'),
-    path('ndvi/getAll/', GetAllViews.as_view(), name = 'getAll')
+    path('ndvi/getAll/', GetAllViews.as_view(), name = 'getAll'),
+    path('facebook/post/', FacebookPostView.as_view(), name="facebook_post"),
     
 ]
 
