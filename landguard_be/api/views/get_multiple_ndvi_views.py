@@ -89,6 +89,12 @@ class NDVIMultiView(APIView):
 
                 results.append({
                     "place_name": place_name,
+                    "area": existing_doc["area"],
+                    "coordinates": coordinates,
+                    "from_date": from_date_iso,
+                    "to_date": to_date_iso,
+                    "interval_days": interval_days,
+                    "ndvi_stats": stats_data,
                     "message": "Updated successfully"
                 })
 
