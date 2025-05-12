@@ -43,6 +43,14 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "api.authentication.MongoJWTAuthentication",  # Replace `your_app` correctly
+    ),
+}
+
+
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -94,6 +102,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# AUTH_USER_MODEL = 'api.CustomUser'
 
 
 # Password validation
