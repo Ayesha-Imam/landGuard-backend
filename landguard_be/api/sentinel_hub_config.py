@@ -79,7 +79,8 @@ def get_stats_request(coordinates, already_wrapped=False, from_date=None, to_dat
             "data": [{
                 "type": "sentinel-2-l2a",
                 "dataFilter": {
-                    "mosaickingOrder": "mostRecent"
+                    "mosaickingOrder": "leastCC",
+                    "maxCloudCoverage": 20,
                 }
             }]
         },
