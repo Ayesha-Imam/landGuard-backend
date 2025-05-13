@@ -23,7 +23,8 @@ urlpatterns = [
     path('signup/', SignupView.as_view(), name = 'signup'),
     path('login/', LoginView.as_view(), name = 'login'),
     path('validateUser/', ValidateUserView.as_view(), name='validateUser'),
-    path('google-auth/', GoogleAuthView.as_view(), name ='google-auth' )
+    path('google-auth/', GoogleAuthView.as_view(), name ='google-auth' ),
+    path('facebook/post/', FacebookPostView.as_view(), name="facebook_post"),
 ]
 
 # Debug: Print all URLs inside api/urls.py

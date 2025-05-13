@@ -38,9 +38,10 @@ def start():
 
     if not scheduler.get_jobs():
         scheduler.add_job(
-            scheduled_post_to_facebook,
-            'interval',
-            minutes=1,
-            id='minutely_facebook_post'
+            trigger='cron',
+            day_of_week='mon',  
+            hour=9,              
+            minute=0,
+            id='weekly_facebook_post'
         )
         scheduler.start()
