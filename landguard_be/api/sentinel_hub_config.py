@@ -85,8 +85,8 @@ def get_stats_request(coordinates, already_wrapped=False, from_date=None, to_dat
         },
         "aggregation": {
             "timeRange": {
-                "from": from_date.isoformat(),
-                "to": to_date.isoformat()
+                "from": from_date,
+                "to": to_date
             },
             "aggregationInterval": {
                 "of": f"P{interval_days}D"
