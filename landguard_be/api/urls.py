@@ -12,6 +12,8 @@ from .views.signUp_view import SignupView
 from .views.login_view import LoginView
 from .views.validateUser import ValidateUserView
 import sys
+from .views.social_views import FacebookPostView
+
 
 app_name = "api"
 
@@ -24,6 +26,8 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name = 'login'),
     path('validateUser/', ValidateUserView.as_view(), name='validateUser'),
     path('google-auth/', GoogleAuthView.as_view(), name ='google-auth' ),
+    path('facebook/post/', FacebookPostView.as_view(), name="facebook_post"),
+
     path('users/', ListAllUsersViews.as_view(), name = 'users'),
 
     path('users/me/', UserDetailView.as_view(), name = 'users'),
