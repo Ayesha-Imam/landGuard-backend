@@ -1,7 +1,9 @@
 from django.urls import path
 
-from .views.google_auth_view import GoogleAuthView
+from .views.user_details_view import UserDetailView,UserEditView, UserDeleteView, UserChangePasswordView
 
+from .views.list_users_view import ListAllUsersViews
+from .views.google_auth_view import GoogleAuthView
 from .views.save_ndvi_inDB import saveNDVIView
 from .views.get_all_views import GetAllViews
 from .views.get_multiple_ndvi_views import NDVIMultiView
@@ -21,7 +23,15 @@ urlpatterns = [
     path('signup/', SignupView.as_view(), name = 'signup'),
     path('login/', LoginView.as_view(), name = 'login'),
     path('validateUser/', ValidateUserView.as_view(), name='validateUser'),
-    path('google-auth/', GoogleAuthView.as_view(), name ='google-auth' )
+    path('google-auth/', GoogleAuthView.as_view(), name ='google-auth' ),
+    path('users/', ListAllUsersViews.as_view(), name = 'users'),
+
+    path('users/me/', UserDetailView.as_view(), name = 'users'),
+    path('users/me/edit/', UserEditView.as_view(), name = 'user-edit'),
+    path('users/me/delete/', UserDeleteView.as_view(), name = 'user-delete-account'),
+    path('users/me/change-password/', UserChangePasswordView.as_view(), name = 'users-change-password'),
+
+    # path('/api/users/me/logout/', ListAllUsersViews.as_view(), name = 'users'),
 ]
 
 # Debug: Print all URLs inside api/urls.py
