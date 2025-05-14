@@ -30,7 +30,8 @@ class LoginView(APIView):
         refresh["email"] = user["email"]
 
         return Response({
-            "token": str(refresh.access_token),
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
             "user": {
                 # "id": str(user["_id"]),
                 "email": user["email"],

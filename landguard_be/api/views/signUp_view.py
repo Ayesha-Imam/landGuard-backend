@@ -42,7 +42,8 @@ class SignupView(APIView):
         refresh["email"] = email
 
         return Response({
-            "token": str(refresh.access_token),
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
             "user": {
                 # "id": user_id,
                 "email": email,
