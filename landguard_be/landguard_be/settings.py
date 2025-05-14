@@ -56,6 +56,8 @@ REST_FRAMEWORK = {
     ],
 }
 
+# Disable collectstatic during deployment
+DISABLE_COLLECTSTATIC = 1
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=360),  
