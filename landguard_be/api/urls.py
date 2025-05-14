@@ -14,6 +14,7 @@ from .views.validateUser import ValidateUserView
 import sys
 from .views.social_views import FacebookPostView
 from .views.post_view import CreateLandPostView, AllLandPostsView, MyLandPostsView
+from .views.drives_view import CreateDriveView, AllDrivesView, UserDrivesView
 
 
 app_name = "api"
@@ -40,9 +41,9 @@ urlpatterns = [
     path("post/getAll/", AllLandPostsView.as_view(), name = 'getAll-post'),
     path("post/my-posts", MyLandPostsView.as_view(), name = 'get-my-post'),
 
-    path("drive/create/", CreateLandPostView.as_view(), name = 'create-drive'),
-    path("drive/getAll/", AllLandPostsView.as_view(), name = 'getAll-drive'),
-    path("drive/my-drives", MyLandPostsView.as_view(), name = 'get-my-drive'),
+    path("drive/create/", CreateDriveView.as_view(), name = 'create-drive'),
+    path("drive/getAll/", AllDrivesView.as_view(), name = 'getAll-drive'),
+    path("drive/my-drives", UserDrivesView.as_view(), name = 'get-my-drive'),
 
 ]
 
