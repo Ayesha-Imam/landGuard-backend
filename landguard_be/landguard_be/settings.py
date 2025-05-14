@@ -84,10 +84,18 @@ ROOT_URLCONF = 'landguard_be.urls'
 # for development only
 # CORS_ALLOW_CREDENTIALS = True
 
+ALLOWED_HOSTS = [
+    'landguard-backend.up.railway.app', 
+    '.railway.app',
+    'localhost',
+    '127.0.0.1'
+]
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",   
     "http://127.0.0.1:3000",
-    "http://localhost:5173",   
+    "http://localhost:5173",
+    "https://land-guard-ten.vercel.app/" 
 ]
 
 
