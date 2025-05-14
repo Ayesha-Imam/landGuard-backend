@@ -35,6 +35,7 @@ class LoginView(APIView):
             "user": {
                 # "id": str(user["_id"]),
                 "email": user["email"],
-                "username": user["username"]
+                "username": user["username"],
+                "userType": user["userType"]
             }
         }, status=status.HTTP_200_OK)

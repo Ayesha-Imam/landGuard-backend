@@ -13,7 +13,8 @@ class ValidateUserView(APIView):
             "user": {
                 # "id": str(user["_id"]),
                 "email": user["email"],
-                "username": user["username"]
+                "username": user["username"],
+                "userType": user["userType"]
             }
         })
 

@@ -36,6 +36,7 @@ class GoogleAuthView(APIView):
             user_data = {
                 "email": email,
                 "username": name,
+                "userType": "user"
                 # "avatar": picture
             }
             result = user_collection.insert_one(user_data)
@@ -52,6 +53,7 @@ class GoogleAuthView(APIView):
 
         return Response({"token": token, "user": {
             "email": user_data["email"],
-            "username": user_data.get("username")
+            "username": user_data.get("username"),
+            "userType": user_data.get("userType")
             # "avatar": user_data.get("avatar")
         }})

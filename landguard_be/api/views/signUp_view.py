@@ -31,6 +31,7 @@ class SignupView(APIView):
             "email": email,
             "username": username,
             "password": password,
+            "userType": "user"
         }
 
         inserted = users_collection.insert_one(user_doc)
@@ -47,6 +48,7 @@ class SignupView(APIView):
             "user": {
                 # "id": user_id,
                 "email": email,
-                "username": username
+                "username": username,
+                "userType": "user"
             }
         }, status=status.HTTP_201_CREATED)
