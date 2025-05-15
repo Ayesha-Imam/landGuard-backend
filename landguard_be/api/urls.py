@@ -13,8 +13,8 @@ from .views.logout_view import LogoutView
 from .views.validateUser import ValidateUserView
 import sys
 from .views.social_views import FacebookPostView
-from .views.post_view import CreateLandPostView, AllLandPostsView, MyLandPostsView
-from .views.drives_view import CreateDriveView, AllDrivesView, UserDrivesView, JoinDriveView
+from .views.post_view import CreateLandPostView, AllLandPostsView, MyLandPostsView,DeleteLandPostView
+from .views.drives_view import CreateDriveView, AllDrivesView, UserDrivesView, JoinDriveView, DeleteDriveView
 
 
 app_name = "api"
@@ -40,11 +40,13 @@ urlpatterns = [
     path("post/create/", CreateLandPostView.as_view(), name = 'create-post'),
     path("post/getAll/", AllLandPostsView.as_view(), name = 'getAll-post'),
     path("post/my-posts", MyLandPostsView.as_view(), name = 'get-my-post'),
+    path('posts/<str:postId>/', DeleteLandPostView.as_view(), name='delete-post'),
 
     path("drive/create/", CreateDriveView.as_view(), name = 'create-drive'),
     path("drive/getAll/", AllDrivesView.as_view(), name = 'getAll-drive'),
     path("drive/my-drives", UserDrivesView.as_view(), name = 'get-my-drive'),
     path('drives/<str:driveId>/join/', JoinDriveView.as_view(), name='join-drive'),
+    path('drives/<str:driveId>/', DeleteDriveView.as_view(), name='delete-drive'),
 
 ]
 

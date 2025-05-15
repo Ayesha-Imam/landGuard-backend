@@ -1,6 +1,9 @@
+import os
+from urllib.parse import urlparse
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
+from ..authentication import MongoJWTAuthentication
 from rest_framework import status, permissions
 from django.core.files.storage import default_storage
 from bson import ObjectId
@@ -67,3 +70,49 @@ class MyLandPostsView(APIView):
             post["user_id"] = str(post["user_id"])
 
         return Response(posts, status=status.HTTP_200_OK)
+
+class DeleteLandPostView(APIView):
+    authentication_classes = [MongoJWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, postId):
+        user = request.user
+        land_collection = get_mongo_collection("posts")
+
+        # Validate postId format
+        if not ObjectId.is_valid(postId):
+            return Response({"detail": "Invalid post ID format"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Find the post and verify ownership
+        post = land_collection.find_one({"_id": ObjectId(postId)})
+        if not post:
+            return Response({"detail": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        if str(post.get("user_id")) != str(user._id):
+            return Response({"detail": "Unauthorized"}, status=status.HTTP_403_FORBIDDEN)
+
+        # Handle image deletion
+        if post.get("image_url"):
+            try:
+                # Extract the relative path from URL
+                parsed_url = urlparse(post["image_url"])
+                relative_path = parsed_url.path.split('/media/')[-1]
+                
+                # Construct proper storage path
+                storage_path = os.path.join('land_images', os.path.basename(relative_path))
+                
+                # Verify the path is safe
+                if not storage_path.startswith(('land_images/', 'land_images\\')):
+                    raise ValueError("Invalid file path")
+                
+                # Delete using default_storage
+                if default_storage.exists(storage_path):
+                    default_storage.delete(storage_path)
+            except Exception as e:
+                print(f"Error deleting image: {str(e)}")
+                # Continue with post deletion even if image deletion fails
+
+        # Delete the post document
+        land_collection.delete_one({"_id": ObjectId(postId)})
+
+        return Response({"detail": "Post deleted successfully"}, status=status.HTTP_200_OK)

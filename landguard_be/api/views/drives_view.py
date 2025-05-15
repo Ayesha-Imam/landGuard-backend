@@ -15,7 +15,7 @@ class CreateDriveView(APIView):
 
         required_fields = [
             "title", "location", "dateTime", "description",
-            "capacity", "organizerName", "createdAt"
+            "capacity", "organizerName", "createdAt", "participants"
         ]
 
         for field in required_fields:
@@ -32,7 +32,7 @@ class CreateDriveView(APIView):
             "capacity": int(data["capacity"]),
             "organizerName": data["organizerName"],
             "status": "pending",
-            "participants": [],
+            "participants": data["participants"],
             "createdAt": data["createdAt"],
             "user_id": str(user._id),
         }
@@ -95,5 +95,42 @@ class JoinDriveView(APIView):
 
         return Response(
             {"message": "Successfully joined the drive"},
+            status=status.HTTP_200_OK
+        )
+    
+class DeleteDriveView(APIView):
+    authentication_classes = [MongoJWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, driveId):
+        user = request.user
+        drive_collection = get_mongo_collection("drives")
+
+        # Validate driveId format
+        if not ObjectId.is_valid(driveId):
+            return Response(
+                {"detail": "Invalid drive ID format"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Find the drive and verify ownership
+        drive = drive_collection.find_one({"_id": ObjectId(driveId)})
+        if not drive:
+            return Response(
+                {"detail": "Drive not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        if drive.get("user_id") != str(user._id):
+            return Response(
+                {"detail": "You are not authorized to delete this drive"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        # Delete the drive
+        drive_collection.delete_one({"_id": ObjectId(driveId)})
+
+        return Response(
+            {"detail": "Drive deleted successfully"},
             status=status.HTTP_200_OK
         )
