@@ -15,20 +15,24 @@ class CreateLandPostView(APIView):
     def post(self, request):
         title = request.data.get("title")
         location = request.data.get("location")
+        username = request.data.get("username")
+        contact = request.data.get("contact")
         description = request.data.get("description")
         image = request.FILES.get("image")
 
-        if not title or not location or not description:
+        if not title or not username or not contact or not location or not description:
             return Response({"detail": "Missing fields"}, status=status.HTTP_400_BAD_REQUEST)
 
         image_url = None
         if image:
             file_path = default_storage.save(f"land_images/{image.name}", image)
-            image_url = default_storage.url(file_path)
+            image_url = request.build_absolute_uri(default_storage.url(file_path))
 
         land_collection = get_mongo_collection("posts")
         land_collection.insert_one({
             "title": title,
+            "username": username,
+            "contact": contact,
             "location": location,
             "description": description,
             "image_url": image_url,
@@ -36,7 +40,7 @@ class CreateLandPostView(APIView):
             "created_at": datetime.now()
         })
 
-        return Response({"detail": "Post created"}, status=status.HTTP_201_CREATED)
+        return Response({"detail": "Post created", "image_url": image_url}, status=status.HTTP_201_CREATED)
 
 
 class AllLandPostsView(APIView):

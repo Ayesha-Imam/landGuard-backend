@@ -44,7 +44,12 @@ class CreateDriveView(APIView):
 class AllDrivesView(APIView):
     def get(self, request):
         drive_collection = get_mongo_collection("drives")
-        drives = list(drive_collection.find({}, {"_id": 0}))
+        drives = list(drive_collection.find({}))
+        
+        # Convert ObjectId to string for each document
+        for drive in drives:
+            drive['_id'] = str(drive['_id'])
+            
         return Response(drives, status=status.HTTP_200_OK)
 
 
