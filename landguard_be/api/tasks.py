@@ -15,13 +15,14 @@ def scheduled_post_to_facebook():
 
         place_name = random.choice(places)
 
+        caption = "Green Spot Highlight from LandGuard"
+
         message = (
-            f"Green Spot Highlight from LandGuard"
             f"{place_name} is available for plantation.\n"
         )
 
         image_path = generate_image_with_message(message)
-        result = post_to_facebook(message, image_path)
+        result = post_to_facebook(caption, image_path)
         print("Scheduled post result:", result)
 
     except Exception as e:

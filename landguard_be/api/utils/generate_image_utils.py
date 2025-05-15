@@ -34,7 +34,7 @@ def generate_image_with_message(message):
 
     # Draw text
     wrapped_text = wrap_text(message, font, 800, draw)
-    draw.multiline_text((250, 400), wrapped_text, font=font, fill="#537D5D",align="center", spacing=10)
+    draw.multiline_text((210, 400), wrapped_text, font=font, fill="#537D5D",align="center", spacing=10)
 
     # Output
     output_path = os.path.join(template_folder, "final_image.png")
