@@ -15,7 +15,7 @@ class CreateDriveView(APIView):
 
         required_fields = [
             "title", "location", "dateTime", "description",
-            "capacity", "organizerName", "createdAt", "participants"
+            "capacity", "organizerName", "createdAt", "participants", "contact"
         ]
 
         for field in required_fields:
@@ -31,6 +31,7 @@ class CreateDriveView(APIView):
             "description": data["description"],
             "capacity": int(data["capacity"]),
             "organizerName": data["organizerName"],
+            "contact": data["contact"],
             "status": "pending",
             "participants": data["participants"],
             "createdAt": data["createdAt"],
