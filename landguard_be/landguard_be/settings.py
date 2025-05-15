@@ -66,6 +66,7 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
 }
 
+GOOGLE_OAUTH2_CLIENT_ID = "983937635962-hr8q2cus57lbbrpm3m1imhqceee4koj8.apps.googleusercontent.com"
 
 
 MIDDLEWARE = [
