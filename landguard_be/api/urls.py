@@ -14,7 +14,7 @@ from .views.validateUser import ValidateUserView
 import sys
 from .views.social_views import FacebookPostView
 from .views.post_view import CreateLandPostView, AllLandPostsView, MyLandPostsView
-from .views.drives_view import CreateDriveView, AllDrivesView, UserDrivesView
+from .views.drives_view import CreateDriveView, AllDrivesView, UserDrivesView, JoinDriveView
 
 
 app_name = "api"
@@ -44,6 +44,7 @@ urlpatterns = [
     path("drive/create/", CreateDriveView.as_view(), name = 'create-drive'),
     path("drive/getAll/", AllDrivesView.as_view(), name = 'getAll-drive'),
     path("drive/my-drives", UserDrivesView.as_view(), name = 'get-my-drive'),
+    path('drives/<str:driveId>/join/', JoinDriveView.as_view(), name='join-drive'),
 
 ]
 

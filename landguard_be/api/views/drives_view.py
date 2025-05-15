@@ -32,7 +32,7 @@ class CreateDriveView(APIView):
             "capacity": int(data["capacity"]),
             "organizerName": data["organizerName"],
             "status": "pending",
-            "participants": 0,
+            "participants": [],
             "createdAt": data["createdAt"],
             "user_id": str(user._id),
         }
@@ -62,3 +62,38 @@ class UserDrivesView(APIView):
         drive_collection = get_mongo_collection("drives")
         user_drives = list(drive_collection.find({"user_id": str(user._id)}, {"_id": 0}))
         return Response(user_drives, status=status.HTTP_200_OK)
+    
+    
+class JoinDriveView(APIView):
+    authentication_classes = [MongoJWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, driveId):
+        user = request.user
+        drive_collection = get_mongo_collection("drives")
+
+        # Check if the drive exists
+        drive = drive_collection.find_one({"_id": ObjectId(driveId)})
+        if not drive:
+            return Response(
+                {"error": "Drive not found"}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Check if user is already a participant
+        if "participants" in drive and user.email in drive["participants"]:
+            return Response(
+                {"error": "User already joined this drive"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Add user email to participants array
+        drive_collection.update_one(
+            {"_id": ObjectId(driveId)},
+            {"$addToSet": {"participants": user.email}}  # Ensures no duplicates
+        )
+
+        return Response(
+            {"message": "Successfully joined the drive"},
+            status=status.HTTP_200_OK
+        )
